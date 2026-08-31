@@ -15,8 +15,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onLoginSuccess, u
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isListExpanded, setIsListExpanded] = useState(false);
 
   // Combine live spreadsheet users with default preloaded spreadsheet list (deduplicated by PN)
   const allAvailableUsers = useMemo(() => {
@@ -31,19 +29,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onLoginSuccess, u
     });
     return Array.from(map.values());
   }, [userList]);
-
-  // Filtered users for quick search helper
-  const filteredUsers = useMemo(() => {
-    if (!searchTerm.trim()) return allAvailableUsers.slice(0, 8);
-    const q = searchTerm.toLowerCase().trim();
-    return allAvailableUsers.filter(
-      (u) =>
-        u.pn.toLowerCase().includes(q) ||
-        u.nama.toLowerCase().includes(q) ||
-        (u.role && u.role.toLowerCase().includes(q)) ||
-        (u.cabang && u.cabang.toLowerCase().includes(q))
-    );
-  }, [allAvailableUsers, searchTerm]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,12 +78,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onLoginSuccess, u
         setErrorMessage('PN tidak ditemukan di daftar pegawai! Periksa kembali PN Anda.');
       }
     }, 350);
-  };
-
-  const handleQuickSelect = (user: UserAccount) => {
-    setPn(user.pn);
-    setPassword('BRI');
-    setErrorMessage('');
   };
 
   return (
@@ -210,107 +189,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onLoginSuccess, u
               )}
             </button>
           </form>
-
-          {/* Searchable PN / RM Directory Helper */}
-          <div style={{ marginTop: '20px', paddingTop: '14px', borderTop: '1px solid #e2e8f0' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-              <span style={{ fontSize: '0.76rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.4px' }}>
-                📋 Daftar PN Pegawai ({allAvailableUsers.length} Terdaftar):
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsListExpanded(!isListExpanded)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  fontSize: '0.75rem',
-                  color: '#0857C3',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  padding: '2px 4px',
-                }}
-              >
-                {isListExpanded ? 'Sembunyikan' : 'Buka Direktori'}
-              </button>
-            </div>
-
-            {isListExpanded && (
-              <div style={{ marginBottom: '8px' }}>
-                <input
-                  type="text"
-                  placeholder="Cari nama atau PN..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '7px 10px',
-                    fontSize: '0.78rem',
-                    borderRadius: '6px',
-                    border: '1px solid #cbd5e1',
-                    background: '#ffffff',
-                  }}
-                />
-              </div>
-            )}
-
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '5px',
-                maxHeight: isListExpanded ? '180px' : '110px',
-                overflowY: 'auto',
-                paddingRight: '4px',
-              }}
-            >
-              {filteredUsers.map((u) => (
-                <button
-                  key={u.pn}
-                  type="button"
-                  onClick={() => handleQuickSelect(u)}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '7px 10px',
-                    borderRadius: '8px',
-                    background: pn === u.pn ? '#e0f2fe' : '#f8fafc',
-                    border: pn === u.pn ? '1.5px solid #0284c7' : '1px solid #e2e8f0',
-                    fontSize: '0.76rem',
-                    color: '#1e293b',
-                    textAlign: 'left',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (pn !== u.pn) e.currentTarget.style.background = '#f1f5f9';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (pn !== u.pn) e.currentTarget.style.background = '#f8fafc';
-                  }}
-                >
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span>
-                      <strong style={{ color: '#0857C3' }}>{u.pn}</strong> - {u.nama}
-                    </span>
-                    <span style={{ fontSize: '0.68rem', color: '#64748b' }}>{u.role || 'RMFT'}</span>
-                  </div>
-                  <span
-                    style={{
-                      fontSize: '0.68rem',
-                      color: '#0369a1',
-                      background: '#e0f2fe',
-                      padding: '2px 6px',
-                      borderRadius: '4px',
-                      fontWeight: 700,
-                    }}
-                  >
-                    Pilih
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>
