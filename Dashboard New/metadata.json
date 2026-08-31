@@ -1,0 +1,6 @@
+{
+  "name": "Dashboard Kinerja Enterprise",
+  "description": "Dashboard Kinerja Enterprise System untuk monitoring performa DPK, Giro, Tabungan, Deposito, Kinerja RM, dan Profil Produktivitas RMFT secara real-time.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
