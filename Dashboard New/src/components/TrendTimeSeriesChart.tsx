@@ -54,11 +54,6 @@ export const TrendTimeSeriesChart: React.FC<TrendTimeSeriesChartProps> = ({
       chartInstanceRef.current = null;
     }
 
-    const existingChart = ChartJS.getChart(canvasRef.current);
-    if (existingChart) {
-      existingChart.destroy();
-    }
-
     const ctx = canvasRef.current.getContext('2d');
     if (!ctx) return;
 

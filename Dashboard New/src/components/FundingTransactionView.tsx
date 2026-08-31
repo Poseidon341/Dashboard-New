@@ -116,6 +116,15 @@ export const FundingTransactionView: React.FC<FundingTransactionViewProps> = ({ 
       </div>
 
       {/* Data Table */}
+      {activeTab !== 'PIPELINE' ? (
+        <div className="empty-state">
+          <i className="fa-solid fa-hourglass-half"></i>
+          <p style={{ fontWeight: 800, fontSize: '1.2rem', color: '#2b3674' }}>
+            {activeTab === 'MERCHANT' ? 'Akuisisi Merchant' : 'EDC & QRIS Monitoring'} belum tersedia
+          </p>
+          <p style={{ marginTop: '6px' }}>Modul ini sedang dalam pengembangan.</p>
+        </div>
+      ) : (
       <div
         style={{
           background: 'white',
@@ -171,6 +180,7 @@ export const FundingTransactionView: React.FC<FundingTransactionViewProps> = ({ 
           </tbody>
         </table>
       </div>
+      )}
     </div>
   );
 };
