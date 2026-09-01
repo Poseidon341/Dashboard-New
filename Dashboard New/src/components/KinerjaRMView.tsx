@@ -336,8 +336,9 @@ export const KinerjaRMView: React.FC<KinerjaRMViewProps> = ({
       <div className="header-content">
         <div className="header-top">
           <h2>{dynamicTitle}</h2>
-          <button className="btn-action btn-download" onClick={onDownloadPDF}>
-            <i className="fa-solid fa-file-pdf"></i> Unduh PDF
+          <button className="btn-action btn-sync" onClick={onSync} disabled={isSyncing}>
+            <i className={`fa-solid fa-rotate ${isSyncing ? 'fa-spin' : ''}`}></i>
+            {isSyncing ? 'Menyinkronkan...' : 'Sync Data'}
           </button>
         </div>
 

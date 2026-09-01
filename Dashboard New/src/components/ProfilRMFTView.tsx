@@ -372,8 +372,9 @@ export const ProfilRMFTView: React.FC<ProfilRMFTViewProps> = ({
               Monitoring Detail Realisasi & Bobot KPI Individu Berdasarkan Jabatan
             </p>
           </div>
-          <button className="btn-action btn-download" onClick={onDownloadPDF}>
-            <i className="fa-solid fa-file-pdf"></i> Unduh PDF
+          <button className="btn-action btn-sync" onClick={onSync} disabled={isSyncing}>
+            <i className={`fa-solid fa-rotate ${isSyncing ? 'fa-spin' : ''}`}></i>
+            {isSyncing ? 'Menyinkronkan...' : 'Sync Data'}
           </button>
         </div>
 
