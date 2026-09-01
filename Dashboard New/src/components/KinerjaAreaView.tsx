@@ -16,6 +16,8 @@ interface KinerjaAreaViewProps {
   onCabangChange: (cabang: string) => void;
   selectedSegmen: string;
   onSegmenChange: (segmen: string) => void;
+  selectedProduk: string;
+  onProdukChange: (produk: string) => void;
   selectedDate: string;
   onDateChange: (date: string) => void;
   onSync: () => void;
@@ -35,6 +37,8 @@ export const KinerjaAreaView: React.FC<KinerjaAreaViewProps> = ({
   onCabangChange,
   selectedSegmen,
   onSegmenChange,
+  selectedProduk,
+  onProdukChange,
   selectedDate,
   onDateChange,
   onSync,
@@ -172,8 +176,10 @@ export const KinerjaAreaView: React.FC<KinerjaAreaViewProps> = ({
       if (selectedCabang !== 'ALL' && cleanCabang !== selectedCabang) return;
 
       // Segmen filter
-      const rawSeg = safeStr(row['segmentasi bpr'] || row['segmentasi_bpr'] || row.segmentasi || row['segmentasi'] || row['segmen']).toUpperCase();
+      const rawSeg = safeStr(row['segmentasi bpi'] || row['segmentasi_bpi'] || row['segmentasi bpr'] || row['segmentasi_bpr'] || row.segmentasi || row['segmentasi'] || row['segmen']).toUpperCase();
       if (selectedSegmen !== 'ALL' && !rawSeg.includes(selectedSegmen.toUpperCase())) return;
+      // Produk filter (independent second filter: Retail/Mikro)
+      if (selectedProduk !== 'ALL' && !rawSeg.includes(selectedProduk.toUpperCase())) return;
 
       const rawProd = safeStr(row.produk || row['produk']).toLowerCase();
       let prodKey: 'tabungan' | 'giro' | 'deposito' = 'tabungan';
@@ -230,13 +236,12 @@ export const KinerjaAreaView: React.FC<KinerjaAreaViewProps> = ({
       }
     });
 
-    // Populate realistic banking curves:
-    // 1. Dec-25, Jun-26, Jul-26: Full 31-day benchmark curves reflecting historical balance levels and seasonal cycles
-    // 2. Aug-26: Strictly from Day 1 up to selectedDay, stopping at selectedDay with exact balance
-    populateBenchmarkSeries(chartData, totals, selectedDay);
+    // Dec-25/Jun-26/Jul-26 use only the real rows aggregated above; a benchmark month with
+    // at most one real data point is flattened to a reference line instead of faking a trend.
+    populateBenchmarkSeries(chartData);
 
     return { totals, cabangData, chartData };
-  }, [rawSegmenData, ukerMap, rkaMap, selectedArea, selectedCabang, selectedSegmen, selectedDate, selectedDay]);
+  }, [rawSegmenData, ukerMap, rkaMap, selectedArea, selectedCabang, selectedSegmen, selectedProduk, selectedDate, selectedDay]);
 
   // Quick Insight calculations
   const insight = useMemo(() => {
@@ -360,6 +365,8 @@ export const KinerjaAreaView: React.FC<KinerjaAreaViewProps> = ({
           onCabangChange={onCabangChange}
           selectedSegmen={selectedSegmen}
           onSegmenChange={onSegmenChange}
+          selectedProduk={selectedProduk}
+          onProdukChange={onProdukChange}
           selectedDate={selectedDate}
           onDateChange={onDateChange}
           onSync={onSync}

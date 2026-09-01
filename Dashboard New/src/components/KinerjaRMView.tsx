@@ -135,7 +135,7 @@ export const KinerjaRMView: React.FC<KinerjaRMViewProps> = ({
       if (selectedCabang !== 'ALL' && cleanCabang !== selectedCabang) return;
       if (selectedArea !== 'ALL' && branchArea !== selectedArea) return;
 
-      const rowSegmen = safeStr(row['segmentasi bpr'] || row['segmentasi_bpr'] || row['segmentasi'] || row['segmen']).toUpperCase();
+      const rowSegmen = safeStr(row['segmentasi bpi'] || row['segmentasi_bpi'] || row['segmentasi bpr'] || row['segmentasi_bpr'] || row['segmentasi'] || row['segmen']).toUpperCase();
       if (selectedSegmen !== 'ALL' && !rowSegmen.includes(selectedSegmen.toUpperCase())) return;
 
       const rowProduk = safeStr(row['produk']).toLowerCase();
@@ -201,10 +201,9 @@ export const KinerjaRMView: React.FC<KinerjaRMViewProps> = ({
       }
     });
 
-    // Populate realistic banking curves:
-    // 1. Dec-25, Jun-26, Jul-26: Full 31-day benchmark curves reflecting historical balance levels
-    // 2. Aug-26: Strictly from Day 1 up to selectedDay, stopping at selectedDay with exact balance
-    populateBenchmarkSeries(chartData, totals, selectedDay);
+    // Dec-25/Jun-26/Jul-26 use only the real rows aggregated above; a benchmark month with
+    // at most one real data point is flattened to a reference line instead of faking a trend.
+    populateBenchmarkSeries(chartData);
 
     return { totals, chartData };
   }, [rawSegmenData, ukerMap, rkaMap, selectedArea, selectedCabang, selectedSegmen, selectedDate, selectedDay]);
