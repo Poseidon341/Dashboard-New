@@ -74,11 +74,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   return (
     <div className="filters">
       <div className="filter-actions">
-        <button className="btn-action btn-sync" onClick={onSync} disabled={isSyncing}>
-          <i className={`fa-solid fa-rotate ${isSyncing ? 'fa-spin' : ''}`}></i>
-          <span>{isSyncing ? 'Menyinkronkan...' : 'Sync Data'}</span>
-        </button>
-
         <span className={`status-badge ${isSyncing ? 'loading' : isOnline ? 'ready' : 'ready'}`}>
           <i className={`fa-solid ${isOnline ? 'fa-circle-check' : 'fa-database'}`}></i>
           <span>{statusText}</span>
