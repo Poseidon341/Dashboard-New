@@ -107,13 +107,15 @@ export const DetailUnitKerjaView: React.FC<DetailUnitKerjaViewProps> = ({
 
       const rawSeg = safeStr(row['segmentasi bpi'] || row['segmentasi_bpi'] || row['segmentasi bpr'] || row['segmentasi_bpr'] || row.segmentasi || row['segmentasi'] || row['segmen']).toUpperCase();
       if (selectedSegmen !== 'ALL' && !rawSeg.includes(selectedSegmen.toUpperCase())) return;
-      if (selectedProduk !== 'ALL' && !rawSeg.includes(selectedProduk.toUpperCase())) return;
 
       const rawProd = safeStr(row.produk || row['produk']).toLowerCase();
       let prodKey: 'tabungan' | 'giro' | 'deposito' = 'tabungan';
       if (rawProd.includes('giro')) prodKey = 'giro';
       else if (rawProd.includes('dep') || rawProd.includes('time')) prodKey = 'deposito';
       else prodKey = 'tabungan';
+
+      // Produk filter (filters by actual product type: Tabungan/Giro/Deposito)
+      if (selectedProduk !== 'ALL' && prodKey.toUpperCase() !== selectedProduk.toUpperCase()) return;
 
       const saldo = cleanNum(row.saldo || row['saldo']);
       const key = `${namaUker}||${cleanCabang}`;

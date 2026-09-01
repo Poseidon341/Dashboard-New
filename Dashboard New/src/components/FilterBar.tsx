@@ -73,13 +73,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
   return (
     <div className="filters">
-      <div className="filter-actions">
-        <span className={`status-badge ${isSyncing ? 'loading' : isOnline ? 'ready' : 'ready'}`}>
-          <i className={`fa-solid ${isOnline ? 'fa-circle-check' : 'fa-database'}`}></i>
-          <span>{statusText}</span>
-        </span>
-      </div>
-
       {/* Area Selector */}
       <div className="filter-item">
         <label className="text-label">AREA</label>
@@ -171,7 +164,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         </div>
       )}
 
-      {/* Produk Selector (independent filter alongside Segmen) */}
+      {/* Produk Selector (filters by product type: Tabungan/Giro/Deposito) */}
       {!showRMSelect && onProdukChange && (
         <div className="filter-item">
           <label className="text-label">PRODUK</label>
@@ -181,8 +174,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             aria-label="Filter Produk"
           >
             <option value="ALL">Semua Produk</option>
-            <option value="RITEL">Retail</option>
-            <option value="MIKRO">Mikro</option>
+            <option value="TABUNGAN">Tabungan</option>
+            <option value="GIRO">Giro</option>
+            <option value="DEPOSITO">Deposito</option>
           </select>
         </div>
       )}
@@ -201,7 +195,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       )}
 
       {/* Action Buttons */}
-      <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+      <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px', flexShrink: 0 }}>
         {onExportCSV && (
           <button
             className="btn-action"
