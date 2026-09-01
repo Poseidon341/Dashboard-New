@@ -372,8 +372,9 @@ export const ProfilRMFTView: React.FC<ProfilRMFTViewProps> = ({
               Monitoring Detail Realisasi & Bobot KPI Individu Berdasarkan Jabatan
             </p>
           </div>
-          <button className="btn-action btn-download" onClick={onDownloadPDF}>
-            <i className="fa-solid fa-file-pdf"></i> Unduh PDF
+          <button className="btn-action btn-sync" onClick={onSync} disabled={isSyncing}>
+            <i className={`fa-solid fa-rotate ${isSyncing ? 'fa-spin' : ''}`}></i>
+            {isSyncing ? 'Menyinkronkan...' : 'Sync Data'}
           </button>
         </div>
 
@@ -701,20 +702,9 @@ export const ProfilRMFTView: React.FC<ProfilRMFTViewProps> = ({
                           <i className={`fa-solid ${item.icon}`} style={{ fontSize: '0.85rem' }}></i>
                           <span>{item.shortLabel}</span>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span>{item.pct.toFixed(0)}%</span>
-                          <span
-                            style={{
-                              padding: '1px 6px',
-                              borderRadius: '4px',
-                              background: 'rgba(255,255,255,0.25)',
-                              fontSize: '0.72rem',
-                              fontWeight: 900,
-                            }}
-                          >
-                            P{item.point}
-                          </span>
-                        </div>
+                        <span style={{ fontSize: '0.78rem', fontWeight: 800 }}>
+                          {item.pct.toFixed(0)}% | {item.point}
+                        </span>
                       </div>
 
                       <div className="kpi-body">
@@ -732,26 +722,6 @@ export const ProfilRMFTView: React.FC<ProfilRMFTViewProps> = ({
                             <span className="val">{formatNumber(item.target, item.isMoney)}</span>
                           </div>
                         </div>
-                      </div>
-
-                      {/* Bobot Badge Footer */}
-                      <div
-                        style={{
-                          padding: '4px 10px',
-                          background: item.isApplicable ? '#f8faff' : '#f1f5f9',
-                          borderTop: '1px solid #edf2f7',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          fontSize: '0.72rem',
-                        }}
-                      >
-                        <span style={{ color: item.isApplicable ? '#0857C3' : '#94a3b8', fontWeight: 800 }}>
-                          {item.isApplicable ? `Bobot: ${item.bobot}%` : 'Non-KPI (0%)'}
-                        </span>
-                        <span style={{ color: '#8f9bba', fontWeight: 600 }}>
-                          {item.isApplicable ? `Skor: +${item.weightedScore.toFixed(2)}` : '-'}
-                        </span>
                       </div>
                     </div>
                   );

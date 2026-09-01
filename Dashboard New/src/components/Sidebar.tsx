@@ -20,9 +20,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const handlePageSelect = onSelectPage || onNavigate || (() => {});
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+    area: true,
     appraisal: false,
-    ptp: false,
-    funding: false,
+    summary: false,
     sbl: false,
   });
 
@@ -46,69 +46,50 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="sidebar-group">
           <div className="sidebar-title">Kinerja Area</div>
           <div className="sidebar-menu">
-            <ul className="sub-menu" style={{ display: 'block', paddingTop: 0 }}>
-              <li>
-                <a
-                  href="#area"
-                  className={activePage === 'page-area' ? 'active' : ''}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick('page-area');
-                  }}
-                >
-                  <i className="fa-solid fa-chart-line icon-sub" style={{ color: '#0857C3' }}></i>
-                  <span>Kinerja Area</span>
-                </a>
-              </li>
-            </ul>
+            <div
+              className={`parent-menu ${openGroups.area ? 'open' : ''}`}
+              onClick={() => toggleGroup('area')}
+            >
+              <div className="menu-left">
+                <i className="fa-solid fa-chart-line icon-main" style={{ color: '#0857C3' }}></i>
+                <span>Kinerja Area</span>
+              </div>
+              <i className="fa-solid fa-chevron-right caret"></i>
+            </div>
+            {openGroups.area && (
+              <ul className="sub-menu" style={{ display: 'block' }}>
+                <li>
+                  <a
+                    href="#area"
+                    className={activePage === 'page-area' ? 'active' : ''}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick('page-area');
+                    }}
+                  >
+                    <i className="fa-solid fa-chart-line icon-sub" style={{ color: '#0857C3' }}></i>
+                    <span>Kinerja Area</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#detail-uker"
+                    className={activePage === 'page-detail-uker' ? 'active' : ''}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick('page-detail-uker');
+                    }}
+                  >
+                    <i className="fa-solid fa-building icon-sub" style={{ color: '#307FE2' }}></i>
+                    <span>Detail Unit Kerja</span>
+                  </a>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
 
-        {/* GROUP 2: KINERJA RM */}
-        <div className="sidebar-group">
-          <div className="sidebar-title">Kinerja RM</div>
-          <div className="sidebar-menu">
-            <ul className="sub-menu" style={{ display: 'block', paddingTop: 0 }}>
-              <li>
-                <a
-                  href="#kinerja-rm"
-                  className={activePage === 'page-kinerja-rm' ? 'active' : ''}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick('page-kinerja-rm');
-                  }}
-                >
-                  <i className="fa-solid fa-users-gear icon-sub" style={{ color: '#307FE2' }}></i>
-                  <span>Dashboard Kinerja RM</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* GROUP 3: KINERJA RMFT PROFIL */}
-        <div className="sidebar-group">
-          <div className="sidebar-title">Kinerja RMFT</div>
-          <div className="sidebar-menu">
-            <ul className="sub-menu" style={{ display: 'block', paddingTop: 0 }}>
-              <li>
-                <a
-                  href="#rmft"
-                  className={activePage === 'page-rmft' ? 'active' : ''}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick('page-rmft');
-                  }}
-                >
-                  <i className="fa-solid fa-user-tie icon-sub" style={{ color: '#05CD99' }}></i>
-                  <span>Profil Kinerja RMFT</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* GROUP 4: PERFORMANCE APPRAISAL */}
+        {/* GROUP 2: PERFORMANCE APPRAISAL */}
         <div className="sidebar-group">
           <div className="sidebar-title">Performance Appraisal</div>
           <div className="sidebar-menu">
@@ -124,6 +105,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
             {openGroups.appraisal && (
               <ul className="sub-menu" style={{ display: 'block' }}>
+                <li>
+                  <a
+                    href="#rmft"
+                    className={activePage === 'page-rmft' ? 'active' : ''}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick('page-rmft');
+                    }}
+                  >
+                    <i className="fa-solid fa-user-tie icon-sub" style={{ color: '#05CD99' }}></i>
+                    <span>Profil Kinerja RMFT</span>
+                  </a>
+                </li>
                 <li>
                   <a
                     href="#appraisal"
@@ -142,55 +136,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* GROUP 5: POINT TO POINT */}
+        {/* GROUP 3: SUMMARY */}
         <div className="sidebar-group">
-          <div className="sidebar-title">Point to Point</div>
+          <div className="sidebar-title">Summary</div>
           <div className="sidebar-menu">
             <div
-              className={`parent-menu ${openGroups.ptp ? 'open' : ''}`}
-              onClick={() => toggleGroup('ptp')}
-            >
-              <div className="menu-left">
-                <i className="fa-solid fa-map-location-dot icon-main" style={{ color: '#607d8b' }}></i>
-                <span>Point to Point</span>
-              </div>
-              <i className="fa-solid fa-chevron-right caret"></i>
-            </div>
-            {openGroups.ptp && (
-              <ul className="sub-menu" style={{ display: 'block' }}>
-                <li>
-                  <a
-                    href="#ptp"
-                    className={activePage === 'page-ptp' ? 'active' : ''}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick('page-ptp');
-                    }}
-                  >
-                    <i className="fa-solid fa-chart-area icon-sub" style={{ color: '#307FE2' }}></i>
-                    <span>Dashboard P.t.P</span>
-                  </a>
-                </li>
-              </ul>
-            )}
-          </div>
-        </div>
-
-        {/* GROUP 6: FUNDING & TRANSACTION */}
-        <div className="sidebar-group">
-          <div className="sidebar-title">Funding & Transaction</div>
-          <div className="sidebar-menu">
-            <div
-              className={`parent-menu ${openGroups.funding ? 'open' : ''}`}
-              onClick={() => toggleGroup('funding')}
+              className={`parent-menu ${openGroups.summary ? 'open' : ''}`}
+              onClick={() => toggleGroup('summary')}
             >
               <div className="menu-left">
                 <i className="fa-solid fa-wallet icon-main" style={{ color: '#FF8F00' }}></i>
-                <span>Funding & Transaction</span>
+                <span>Summary</span>
               </div>
               <i className="fa-solid fa-chevron-right caret"></i>
             </div>
-            {openGroups.funding && (
+            {openGroups.summary && (
               <ul className="sub-menu" style={{ display: 'block' }}>
                 <li>
                   <a
@@ -202,7 +162,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }}
                   >
                     <i className="fa-solid fa-droplet icon-sub" style={{ color: '#307FE2' }}></i>
-                    <span>Monitoring FT & Merchant</span>
+                    <span>Monitoring FT</span>
                   </a>
                 </li>
               </ul>
@@ -210,7 +170,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* GROUP 7: SALARY BASED LOAN */}
+        {/* GROUP 4: SALARY BASED LOAN */}
         <div className="sidebar-group">
           <div className="sidebar-title">Salary Based Loan</div>
           <div className="sidebar-menu">

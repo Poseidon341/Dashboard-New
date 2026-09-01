@@ -82,8 +82,9 @@ export interface RMFTProfileData {
   };
 }
 
-export type ActivePage = 
+export type ActivePage =
   | 'page-area'
+  | 'page-detail-uker'
   | 'page-kinerja-rm'
   | 'page-rmft'
   | 'page-appraisal'

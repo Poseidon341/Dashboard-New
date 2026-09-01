@@ -97,6 +97,15 @@ export const PerformanceAppraisalView: React.FC<PerformanceAppraisalViewProps> =
       </div>
 
       {/* Leaderboard Table Card */}
+      {tab !== 'RM' ? (
+        <div className="empty-state">
+          <i className="fa-solid fa-hourglass-half"></i>
+          <p style={{ fontWeight: 800, fontSize: '1.2rem', color: '#2b3674' }}>
+            Ranking {tab === 'MANAGER' ? 'Manager' : tab === 'BOH' ? 'BOH & SBOH' : 'Pencapaian Segmen'} belum tersedia
+          </p>
+          <p style={{ marginTop: '6px' }}>Modul ini sedang dalam pengembangan.</p>
+        </div>
+      ) : (
       <div
         style={{
           background: 'white',
@@ -239,6 +248,7 @@ export const PerformanceAppraisalView: React.FC<PerformanceAppraisalViewProps> =
           </table>
         </div>
       </div>
+      )}
     </div>
   );
 };

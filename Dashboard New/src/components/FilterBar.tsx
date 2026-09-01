@@ -10,6 +10,8 @@ interface FilterBarProps {
   onCabangChange: (cabang: string) => void;
   selectedSegmen: string;
   onSegmenChange: (segmen: string) => void;
+  selectedProduk?: string;
+  onProdukChange?: (produk: string) => void;
   selectedDate: string;
   onDateChange: (date: string) => void;
   onSync: () => void;
@@ -32,6 +34,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onCabangChange,
   selectedSegmen,
   onSegmenChange,
+  selectedProduk = 'ALL',
+  onProdukChange,
   selectedDate,
   onDateChange,
   onSync,
@@ -70,11 +74,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   return (
     <div className="filters">
       <div className="filter-actions">
-        <button className="btn-action btn-sync" onClick={onSync} disabled={isSyncing}>
-          <i className={`fa-solid fa-rotate ${isSyncing ? 'fa-spin' : ''}`}></i>
-          <span>{isSyncing ? 'Menyinkronkan...' : 'Sync Data'}</span>
-        </button>
-
         <span className={`status-badge ${isSyncing ? 'loading' : isOnline ? 'ready' : 'ready'}`}>
           <i className={`fa-solid ${isOnline ? 'fa-circle-check' : 'fa-database'}`}></i>
           <span>{statusText}</span>
@@ -167,6 +166,22 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <option value="ALL">Total Konsolidasi</option>
             <option value="KORPORASI">Korporasi</option>
             <option value="RITEL">Ritel</option>
+            <option value="MIKRO">Mikro</option>
+          </select>
+        </div>
+      )}
+
+      {/* Produk Selector (independent filter alongside Segmen) */}
+      {!showRMSelect && onProdukChange && (
+        <div className="filter-item">
+          <label className="text-label">PRODUK</label>
+          <select
+            value={selectedProduk}
+            onChange={(e) => onProdukChange(e.target.value)}
+            aria-label="Filter Produk"
+          >
+            <option value="ALL">Semua Produk</option>
+            <option value="RITEL">Retail</option>
             <option value="MIKRO">Mikro</option>
           </select>
         </div>

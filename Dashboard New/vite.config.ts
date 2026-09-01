@@ -5,6 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // GitHub Pages serves this project from a /Dashboard-New/ subpath; every other
+    // host (Vercel, Netlify, local dev/preview) serves it from the domain root.
+    base: process.env.GITHUB_PAGES === 'true' ? '/Dashboard-New/' : '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

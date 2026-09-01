@@ -390,7 +390,7 @@ export async function fetchAllDashboardData(): Promise<SheetsDataState> {
             uker: safeStr(row['nama uker'] || row['uker'] || cleanCabang),
             status: 'Pekerja Tetap',
             tmt: '01/01/2021',
-            masakerja: '4 Tahun 8 Bulan',
+            masakerja: '56',
             jg: safeStr(row['jg'] || 'JG05'),
             pg: 'PG04',
             tier: 'Tier 1',

@@ -5,6 +5,7 @@ import { LoginPage } from './components/LoginPage';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { KinerjaAreaView } from './components/KinerjaAreaView';
+import { DetailUnitKerjaView } from './components/DetailUnitKerjaView';
 import { KinerjaRMView } from './components/KinerjaRMView';
 import { ProfilRMFTView } from './components/ProfilRMFTView';
 import { PerformanceAppraisalView } from './components/PerformanceAppraisalView';
@@ -32,6 +33,7 @@ export function App() {
   const [selectedArea, setSelectedArea] = useState<string>('ALL');
   const [selectedCabang, setSelectedCabang] = useState<string>('ALL');
   const [selectedSegmen, setSelectedSegmen] = useState<string>('ALL');
+  const [selectedProduk, setSelectedProduk] = useState<string>('ALL');
   const [selectedDate, setSelectedDate] = useState<string>('2026-08-01');
 
   // Data states
@@ -170,6 +172,30 @@ export function App() {
             onCabangChange={setSelectedCabang}
             selectedSegmen={selectedSegmen}
             onSegmenChange={setSelectedSegmen}
+            selectedProduk={selectedProduk}
+            onProdukChange={setSelectedProduk}
+            selectedDate={selectedDate}
+            onDateChange={setSelectedDate}
+            onSync={loadData}
+            isSyncing={isSyncing}
+            statusText={statusText}
+            isOnline={isOnline}
+            onDownloadPDF={handleDownloadPDF}
+          />
+        )}
+
+        {activePage === 'page-detail-uker' && (
+          <DetailUnitKerjaView
+            ukerMap={ukerMap}
+            rawSegmenData={rawSegmenData}
+            selectedArea={selectedArea}
+            onAreaChange={handleAreaChange}
+            selectedCabang={selectedCabang}
+            onCabangChange={setSelectedCabang}
+            selectedSegmen={selectedSegmen}
+            onSegmenChange={setSelectedSegmen}
+            selectedProduk={selectedProduk}
+            onProdukChange={setSelectedProduk}
             selectedDate={selectedDate}
             onDateChange={setSelectedDate}
             onSync={loadData}
